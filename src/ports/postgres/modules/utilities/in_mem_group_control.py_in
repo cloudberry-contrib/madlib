@@ -9,7 +9,7 @@ import math
 from .control import MinWarning
 from .utilities import unique_string
 from collections import namedtuple
-from collections import Iterable
+from collections.abc import Iterable
 
 
 class BaseState(object):

@@ -11,10 +11,10 @@
 """
 import plpy
 
-from distutils.util import strtobool
 from functools import wraps
 
 from .utilities import extract_keyvalue_params
+from .utilities import strtobool
 from .utilities import unique_string
 
 HAS_FUNCTION_PROPERTIES = m4_ifdef(`__HAS_FUNCTION_PROPERTIES__', `True', `False')

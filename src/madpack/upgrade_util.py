@@ -1,4 +1,5 @@
-from collections import defaultdict, Iterable
+from collections import defaultdict
+from collections.abc import Iterable
 import glob
 import os
 import re
@@ -153,7 +154,7 @@ class ChangeHandler(UpgradeBase):
         version_filepath = os.path.abspath(
             os.path.join(self._maddir, 'config', 'Version.yml'))
         with open(version_filepath) as ver_file:
-            version_str = str(yaml.load(ver_file)['version'])
+            version_str = str(yaml.safe_load(ver_file)['version'])
             return get_rev_num(version_str)
 
     def _load_config_param(self, config_iterable, output_config_dict=None):
@@ -285,7 +286,7 @@ class ChangeHandler(UpgradeBase):
         upgrade_filenames = self._get_relevant_filenames(rev)
         for f in upgrade_filenames:
             with open(f) as handle:
-                config = yaml.load(handle)
+                config = yaml.safe_load(handle)
                 self._update_objects(config)
 
     @property

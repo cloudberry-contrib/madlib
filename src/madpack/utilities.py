@@ -21,7 +21,7 @@
 # Madpack utilities
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-from itertools import izip_longest
+from itertools import zip_longest
 import os
 import re
 import sys
@@ -107,7 +107,8 @@ def run_query(sql, con_args, show_error=True):
         runenv["PGPASSWORD"] = con_args['password']
     runenv["PGOPTIONS"] = '-c search_path=public -c client_min_messages=error'
     std, err = subprocess.Popen(runcmd, env=runenv, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE).communicate()
+                                stderr=subprocess.PIPE,
+                                universal_newlines=True).communicate()
 
     if err:
         if show_error:
@@ -224,7 +225,7 @@ def is_rev_gte(left, right):
     if all_numeric(left) and all_numeric(right):
         return left >= right
     else:
-        for i, (l_e, r_e) in enumerate(izip_longest(left, right)):
+        for i, (l_e, r_e) in enumerate(zip_longest(left, right)):
             if isinstance(l_e, int) and isinstance(r_e, int):
                 if l_e == r_e:
                     continue

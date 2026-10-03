@@ -33,7 +33,7 @@ except NameError:
 py_min_ver = [2, 6]
 
 # Check python version
-if sys.version_info[:2] < py_min_ver:
+if list(sys.version_info[:2]) < py_min_ver:
     print("ERROR: python version too old ({0}). You need {1} or greater.".
           format('.'.join(list(map(str, sys.version_info[:3]))),
                  '.'.join(list(map(str, py_min_ver)))))
