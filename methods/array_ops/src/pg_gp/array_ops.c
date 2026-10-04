@@ -8,7 +8,9 @@
 #include "utils/numeric.h"
 #include "utils/builtins.h"
 #include "utils/memutils.h"
+#if PG_VERSION_NUM < 150000
 #include "utils/int8.h"
+#endif
 #include "utils/datum.h"
 #include "utils/lsyscache.h"
 #include "utils/typcache.h"
