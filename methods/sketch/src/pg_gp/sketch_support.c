@@ -318,8 +318,16 @@ bytea *sketch_md5_bytea(Datum dat, Oid typOid)
     if (byval && len == sizeof(int64) && *(int64 *)datp == 0 && zero_cached) {
         return md5_of_0;
     }
-    else
+    else {
+#if PG_VERSION_NUM >= 150000
+        const char *errstr = NULL;
+
+        if (!pg_md5_hash(datp, len, outbuf, &errstr))
+            elog(ERROR, "could not compute MD5 hash: %s", errstr);
+#else
         pg_md5_hash(datp, len, outbuf);
+#endif
+    }
 
     hex_to_bytes(outbuf, (uint8 *)VARDATA(out), MD5_HASHLEN*2);
     SET_VARSIZE(out, MD5_HASHLEN+VARHDRSZ);

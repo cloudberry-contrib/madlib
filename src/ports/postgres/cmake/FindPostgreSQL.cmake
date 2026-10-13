@@ -164,7 +164,7 @@ if(${PKG_NAME}_PG_CONFIG AND ${PKG_NAME}_SERVER_INCLUDE_DIR)
               "server include dir (${${PKG_NAME}_SERVER_INCLUDE_DIR}).")
     endif(EXISTS ${CONFIG_FILE})
 
-    if(_PACKAGE_NAME STREQUAL "${_NEEDED_PG_CONFIG_PACKAGE_NAME}")
+    if(_PACKAGE_NAME MATCHES "^(${_NEEDED_PG_CONFIG_PACKAGE_NAME})$")
         if((NOT DEFINED PACKAGE_FIND_VERSION) OR
             (PACKAGE_FIND_VERSION VERSION_EQUAL
             "${${PKG_NAME}_VERSION_MAJOR}.${${PKG_NAME}_VERSION_MINOR}"))
@@ -199,7 +199,7 @@ if(${PKG_NAME}_PG_CONFIG AND ${PKG_NAME}_SERVER_INCLUDE_DIR)
 			  "was requested.")
 		  endif(${PACKAGE_FIND_VERSION})
         endif()
-    else(_PACKAGE_NAME STREQUAL "${_NEEDED_PG_CONFIG_PACKAGE_NAME}")
+    else(_PACKAGE_NAME MATCHES "^(${_NEEDED_PG_CONFIG_PACKAGE_NAME})$")
 	  if(${PACKAGE_FIND_VERSION})
         # There are DBMSs derived from PostgreSQL that also contain pg_config.
         # So there might be many pg_config installed on a system.
@@ -208,7 +208,7 @@ if(${PKG_NAME}_PG_CONFIG AND ${PKG_NAME}_SERVER_INCLUDE_DIR)
           "where ${_NEEDED_PG_CONFIG_PACKAGE_NAME} ${PACKAGE_FIND_VERSION} "
 		  "was requested.")
 	  endif(${PACKAGE_FIND_VERSION})
-    endif(_PACKAGE_NAME STREQUAL "${_NEEDED_PG_CONFIG_PACKAGE_NAME}")
+    endif(_PACKAGE_NAME MATCHES "^(${_NEEDED_PG_CONFIG_PACKAGE_NAME})$")
 endif(${PKG_NAME}_PG_CONFIG AND ${PKG_NAME}_SERVER_INCLUDE_DIR)
 
 

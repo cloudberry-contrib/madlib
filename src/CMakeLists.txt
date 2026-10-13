@@ -156,7 +156,7 @@ ExternalProject_Add(EP_pyxb
     SOURCE_DIR ${MAD_THIRD_PARTY}/src/EP_pyxb
     BUILD_COMMAND ""
     BUILD_IN_SOURCE 1
-    INSTALL_COMMAND ${PYTHON_EXECUTABLE} setup.py install --install-lib ${BUILD_PYTHON_LIBDIR} > /dev/null
+    INSTALL_COMMAND ${PYTHON_EXECUTABLE} setup.py build --build-lib ${BUILD_PYTHON_LIBDIR} > /dev/null
 )
 
 install(DIRECTORY ${BUILD_PYTHON_LIBDIR}

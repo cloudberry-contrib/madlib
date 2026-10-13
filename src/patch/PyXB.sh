@@ -221,3 +221,36 @@ patch -N -p1 <<'EOF'
                        , 'Intended Audience :: Developers'
                        , 'License :: OSI Approved :: Apache Software License'
 EOF
+
+# Python 3.12 compatibility:
+# - The bundled six only implements the PEP 302 find_module()/load_module()
+#   finder API, which was removed in Python 3.12. Add the PEP 451 API.
+# - Abstract base classes are no longer available directly from collections
+#   (removed in Python 3.10).
+patch -N -p1 <<'EOF'
+--- old/pyxb/utils/six.py
++++ new/pyxb/utils/six.py
+@@ -205,6 +205,18 @@
+             return self
+         return None
+ 
++    def find_spec(self, fullname, path, target=None):
++        if fullname in self.known_modules:
++            from importlib.util import spec_from_loader
++            return spec_from_loader(fullname, self)
++        return None
++
++    def create_module(self, spec):
++        return self.load_module(spec.name)
++
++    def exec_module(self, module):
++        pass
++
+     def __get_module(self, fullname):
+         try:
+             return self.known_modules[fullname]
+EOF
+
+sed -i -e 's/^import collections$/import collections.abc/' \
+    -e 's/collections\.\(Iterable\|MutableSequence\)\b/collections.abc.\1/g' \
+    pyxb/binding/basis.py pyxb/binding/content.py

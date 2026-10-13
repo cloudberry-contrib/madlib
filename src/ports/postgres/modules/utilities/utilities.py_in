@@ -1,10 +1,9 @@
 
-import collections
+import collections.abc
 from datetime import datetime
 import re
 import time
 import random
-from distutils.util import strtobool
 # import numpy as np
 
 import sys
@@ -24,6 +23,20 @@ from .validate_args import quote_ident
 from .validate_args import unquote_ident
 from .validate_args import drop_tables
 import plpy
+
+
+def strtobool(val):
+    """Convert a string representation of truth to 1 or 0.
+
+    Same as the distutils.util.strtobool, which was removed in Python 3.12.
+    """
+    val = val.lower()
+    if val in ('y', 'yes', 't', 'true', 'on', '1'):
+        return 1
+    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+        return 0
+    else:
+        raise ValueError("invalid truth value %r" % (val,))
 
 m4_changequote(`<!', `!>')
 
@@ -921,7 +934,7 @@ def extract_keyvalue_params(input_params,
                     parameter_dict[param_name] = bool(strtobool(param_value))
                 elif param_type in (int, str, float):
                     parameter_dict[param_name] = param_type(param_value)
-                elif issubclass(param_type, collections.Iterable):
+                elif issubclass(param_type, collections.abc.Iterable):
                     parameter_dict[param_name] = split_quoted_delimited_str(
                         param_value.strip('[](){} '))
                 else:
